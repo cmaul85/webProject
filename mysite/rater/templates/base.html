@@ -1,1 +1,29 @@
 <!DOCTYPE HTML>
+{% load static %}
+<html>
+	{% block head %}
+	<script src={%static "/js/vendor/modernizr.js" %}></script>
+	{% block title %}{% endblock %}
+
+	<link rel="stylesheet" href=" {%static "css/foundation.css" %}">
+	<link rel="stylesheet" href=" {%static "css/app.css" %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.min.css" />
+
+	{% endblock %}
+	<body >
+
+		{% block content %}{% endblock %}
+
+
+		{% block scripts %}
+		<script src="{%static "js/vendor/jquery.js" %}"></script>
+		<script src="{%static "js/vendor/foundation.min.js" %}"></script>
+		{% endblock %}
+		<script>
+$(document).ready(function() {
+	$(document).foundation();
+})
+		</script>
+
+	</body>
+</html>
