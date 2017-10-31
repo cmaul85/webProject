@@ -1,1 +1,68 @@
 <!DOCTYPE HTML>
+{% load static %}
+<html>
+	{% block head %}
+	<script src={%static "/js/vendor/modernizr.js" %}></script>
+	{% block title %} {% endblock %}
+
+	<link rel="stylesheet" href=" {%static "css/foundation.css" %}">
+	<link rel="stylesheet" href=" {%static "css/app.css" %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.min.css" />
+
+	{% endblock %}
+
+	<body >
+
+		{% block nav %}
+		<div class="top-bar">
+			<div class="top-bar-left">
+				<ul class="dropdown menu" data-dropdown-menu>
+					<li class="menu-text">Site Title</li>
+					<li>
+						<a href="#">One</a>
+						<ul class="menu vertical">
+							<li><a href="#">One</a></li>
+							<li><a href="#">Two</a></li>
+							<li><a href="#">Three</a></li>
+						</ul>
+					</li>
+					<li><a href="#">Two</a></li>
+					<li><a href="#">Three</a></li>
+				</ul>
+			</div>
+			<div class="top-bar-right">
+				<ul class="menu">
+					<li><input type="search" placeholder="Search"></li>
+					<li><button type="button" class="button">Search</button></li>
+				</ul>
+			</div>
+		</div>
+		{% endblock %}
+		{% block content %}{% endblock %}
+		Base
+
+
+
+
+
+
+
+
+
+
+
+
+
+		{% block scripts %}
+		<script src="{%static "js/vendor/jquery.js" %}"></script>
+		<script src="{%static "js/vendor/foundation.min.js" %}"></script>
+		{% endblock %}
+
+		<script>
+$(document).ready(function() {
+	$(document).foundation();
+})
+		</script>
+
+	</body>
+</html>
