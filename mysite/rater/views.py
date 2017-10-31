@@ -10,3 +10,7 @@ def default(request):
     context= {
     }
     return render(request, 'base.html', context)
+
+def guest_page(request):
+    context={}
+    return render(request, 'guest_page.html', context)
