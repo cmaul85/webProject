@@ -14,3 +14,11 @@ def default(request):
 def guest_page(request):
     context={}
     return render(request, 'guest_page.html', context)
+
+def projects_page(request):
+    context={}
+    return render(request, 'projects.html', context)
+
+def contact_page(request):
+    context={}
+    return render(request, 'contact.html', context)

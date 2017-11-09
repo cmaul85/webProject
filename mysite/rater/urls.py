@@ -8,7 +8,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
       url(r'^$', views.default, name='default'),
-      url(r'^guest$', views.guest_page, name='guest_page')
+      url(r'^guest$', views.guest_page, name='guest_page'),
+      url(r'^projects$', views.projects_page, name='projects_page'),
+      url(r'^contact$', views.contact_page, name='contact_page')
 ]
 
 
