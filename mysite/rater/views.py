@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from .forms import *
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 # Create your views here.
 from django.http import HttpResponse
@@ -25,7 +25,8 @@ def register_page(request):
     else:
         form = Register_form()
 
-    content = {'form': form}
+    content = {'form': form,
+                'var': 'base.html'}
     return render(request, 'register_page.html', content)
 
 def login_page(request):
