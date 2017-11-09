@@ -7,16 +7,52 @@ from django.contrib.auth import login, logout
 # Create your views here.
 from django.http import HttpResponse
 
-def default(request):
-    context= {
-    }
-    return render(request, 'base.html', context)
+def Namecheck(request):
+    if(request.user.is_authenticated):
+        name= request.user.username
+    else:
+        name= "Guest"
 
+    return name
+
+def Pagecheck(request):
+    if(request.user.is_authenticated):
+        return "guest_page.html"#needs to be user_page.html once created
+    else:
+        return "guest_page.html"
+
+
+def default(request):
+    if(not request.user.is_authenticated):
+        register_text = "Register"
+        login_text = "Login"
+        logout_text = ""
+    else:
+        register_text =""
+        login_text = ""
+        logout_text = "Logout"
+
+    context= {'name': Namecheck(request),
+            'register_text': register_text,
+            'login_text':login_text,
+            'logout_text':logout_text}
+    return render(request, Pagecheck(request), context)
+            
+
+#### this is for testing only. Nothing directs to /guest
 def guest_page(request):
-    context={}
+    if(not request.user.is_authenticated):
+        register_text = "Register"
+    else:
+        register_text =""
+
+    context={'name': Namecheck(request), 
+            'register_text': register_text}
     return render(request, 'guest_page.html', context)
 
 def register_page(request):
+    if(request.user.is_authenticated):
+        return redirect('/')
     if (request.method == 'POST'):
         form = Register_form(request.POST)
         if form.is_valid():
@@ -26,10 +62,13 @@ def register_page(request):
         form = Register_form()
 
     content = {'form': form,
-                'var': 'base.html'}
+                'var': Pagecheck(request),
+                'name': Namecheck(request)}
     return render(request, 'register_page.html', content)
 
 def login_page(request):
+    if(request.user.is_authenticated):
+        return redirect('/')
     if (request.method == 'POST'):
         form = Login_form(request.POST)
         user = form.validate(request)
@@ -43,13 +82,19 @@ def login_page(request):
     else:
         form = Login_form()
 
-    content = {'form': form}
+    content = {'form': form,
+            'name': Namecheck(request)}
     return render(request, 'login_page.html', content)
 
 def projects_page(request):
-    context={}
+    context={'name': Namecheck(request)}
     return render(request, 'projects.html', context)
 
 def contact_page(request):
-    context={}
+    context={'name': Namecheck(request)}
     return render(request, 'contact.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')

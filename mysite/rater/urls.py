@@ -12,7 +12,8 @@ urlpatterns = [
       url(r'^register$', views.register_page, name='register_page'),
       url(r'^login$', views.login_page, name='login_page'),
       url(r'^projects$', views.projects_page, name='projects_page'),
-      url(r'^contact$', views.contact_page, name='contact_page')
+      url(r'^contact$', views.contact_page, name='contact_page'),
+      url(r'^logout$', views.logout_view, name='logout')
 ]
 
 
