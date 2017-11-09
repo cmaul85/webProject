@@ -17,25 +17,14 @@ def Namecheck(request):
 
 def Pagecheck(request):
     if(request.user.is_authenticated):
-        return "guest_page.html"#needs to be user_page.html once created
+        return "user_page.html"#needs to be user_page.html once created
     else:
         return "guest_page.html"
 
 
 def default(request):
-    if(not request.user.is_authenticated):
-        register_text = "Register"
-        login_text = "Login"
-        logout_text = ""
-    else:
-        register_text =""
-        login_text = ""
-        logout_text = "Logout"
 
-    context= {'name': Namecheck(request),
-            'register_text': register_text,
-            'login_text':login_text,
-            'logout_text':logout_text}
+    context= {'name': Namecheck(request)}
     return render(request, Pagecheck(request), context)
             
 
@@ -87,11 +76,13 @@ def login_page(request):
     return render(request, 'login_page.html', content)
 
 def projects_page(request):
-    context={'name': Namecheck(request)}
+    context={'name': Namecheck(request),
+            'extend_val': Pagecheck(request)}
     return render(request, 'projects.html', context)
 
 def contact_page(request):
-    context={'name': Namecheck(request)}
+    context={'name': Namecheck(request),
+            'extend_val': Pagecheck(request)}
     return render(request, 'contact.html', context)
 
 
