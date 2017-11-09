@@ -4,40 +4,37 @@
 
 {% block content %}
 <div class="container">
-	<div class="row  align-items-center">
+	<div class="row justify-content-md-center">
 		<div class="col col-lg-6">
-			<form method="">
-				<h1> Register </h1>
-				{{ form.username.label_tag }}
+			<form method="POST" style="margin-top:50px;">{% csrf_token %}
+				<h1 style="margin-bottom:50px;"> Register </h1>
 				<div class="form-group">
+					{{ form.username.label_tag }}
 					{{ form.username }}
 				</div>
-				{{ form.first_name.label_tag }}
 				<div class="form-group">
+					{{ form.first_name.label_tag }}
 					{{ form.first_name }}
 				</div>
-				{{ form.last_name.label_tag }}
 				<div class="form-group">
+					{{ form.last_name.label_tag }}
 					{{ form.last_name }}
 				</div>
-				{{ form.email.label_tag }}
 				<div class="form-group">
+					{{ form.email.label_tag }}
 					{{ form.email }}
 				</div>
-				{{ form.password1.label_tag }}
 				<div class="form-group">
+					{{ form.password1.label_tag }}
 					{{ form.password1 }}
 				</div>
-				{{ form.password2.label_tag }}
 				<div class="form-group">
+					{{ form.password2.label_tag }}
 					{{ form.password2 }}
 				</div>
-		
-				<div style="width:50%">
-				<button class="btn btn-primary btn-block" >Login</button>
-				</div>
-				<div style="width:50%">
-				<button class="btn btn-success btn-block" >Register</button>
+
+				<div >
+					<button class="btn btn-success" style="width:50%;">Register</button>
 				</div>
 
 
