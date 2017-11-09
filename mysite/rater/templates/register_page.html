@@ -3,26 +3,46 @@
 
 
 {% block content %}
-    <div class="grid-y" style="margin-top: 100px;">
-        <div class="grid-x grid-padding-x">
-            <div class ="large-4 medium-6 small-12 large-offset-4 medium-offset-3 cell">
-                <form  method="post">
-                    {% csrf_token %}
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
-                    {{ form.first_name.label_tag }}
-                    {{ form.first_name }}
-                    {{ form.last_name.label_tag }}
-                    {{ form.last_name }}
-                    {{ form.email.label_tag }}
-                    {{ form.email }}
-                    {{ form.password1.label_tag }}
-                    {{ form.password1 }}
-                    {{ form.password2.label_tag }}
-                    {{ form.password2 }}
-                    <input type="submit" class="button expanded" value="submit">
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="container">
+	<div class="row  align-items-center">
+		<div class="col col-lg-6">
+			<form method="">
+				<h1> Register </h1>
+				{{ form.username.label_tag }}
+				<div class="form-group">
+					{{ form.username }}
+				</div>
+				{{ form.first_name.label_tag }}
+				<div class="form-group">
+					{{ form.first_name }}
+				</div>
+				{{ form.last_name.label_tag }}
+				<div class="form-group">
+					{{ form.last_name }}
+				</div>
+				{{ form.email.label_tag }}
+				<div class="form-group">
+					{{ form.email }}
+				</div>
+				{{ form.password1.label_tag }}
+				<div class="form-group">
+					{{ form.password1 }}
+				</div>
+				{{ form.password2.label_tag }}
+				<div class="form-group">
+					{{ form.password2 }}
+				</div>
+		
+				<div style="width:50%">
+				<button class="btn btn-primary btn-block" >Login</button>
+				</div>
+				<div style="width:50%">
+				<button class="btn btn-success btn-block" >Register</button>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}
