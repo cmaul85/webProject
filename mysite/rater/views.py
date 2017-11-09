@@ -44,3 +44,11 @@ def login_page(request):
 
     content = {'form': form}
     return render(request, 'login_page.html', content)
+
+def projects_page(request):
+    context={}
+    return render(request, 'projects.html', context)
+
+def contact_page(request):
+    context={}
+    return render(request, 'contact.html', context)
