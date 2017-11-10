@@ -3,18 +3,27 @@
 
 
 {% block content %}
-    <div class="grid-y" style="margin-top: 100px;">
-        <div class="grid-x grid-padding-x">
-            <div class ="large-4 medium-6 small-12 large-offset-4 medium-offset-3 cell">
-                <form  method="post">
-                    {% csrf_token %}
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
-                    {{ form.password.label_tag }}
-                    {{ form.password }}
-                    <input type="submit" class="button expanded" value="submit">
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col col-lg-6">
+			<form method="POST" style="margin-top:50px;">{% csrf_token %}
+				<h1 style="margin-bottom:50px;"> Login </h1>
+				<div class="form-group">
+					{{ form.username.label_tag }}
+					{{ form.username }}
+				</div>
+				<div class="form-group">
+					{{ form.password.label_tag }}
+					{{ form.password }}
+				</div>
+
+				<div >
+					<button class="btn btn-success" style="width:50%;">Login</button>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}
