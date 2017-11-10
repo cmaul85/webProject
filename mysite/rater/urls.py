@@ -13,7 +13,9 @@ urlpatterns = [
       url(r'^login$', views.login_page, name='login_page'),
       url(r'^projects$', views.projects_page, name='projects_page'),
       url(r'^contact$', views.contact_page, name='contact_page'),
-      url(r'^logout$', views.logout_view, name='logout')
+      url(r'^logout$', views.logout_view, name='logout_page'),
+      url(r'^profile/[\s\S]+$', views.profile_page, name='profile_page'),
+      url(r'^.+$', views.error_page, name="401")
 ]
 
 
