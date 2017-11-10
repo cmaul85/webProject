@@ -1,0 +1,19 @@
+{% extends var %}
+{% load static %}
+
+
+{% block content %}
+    {{ valid }}
+
+    <div class="img-rounded" sytle="height:100px;width:100px;">
+        {{ profile.profile_image }}
+    </div>
+    {{ profile.username }}
+    {{ profile.first_name }}
+    {{ profile.last_name }}
+    {{ profile.email }}
+
+
+{% endblock %}
+
+
