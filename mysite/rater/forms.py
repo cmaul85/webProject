@@ -11,6 +11,7 @@ class Register_form(UserCreationForm):
     first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
 
+
     class Meta:
         model = User
         fields = (
@@ -20,7 +21,18 @@ class Register_form(UserCreationForm):
                 'email',
                 'password1',
                 'password2')
-    
+
+    def __init__(self, *args, **kwargs):
+        super(Register_form, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+
+
+
     def save(self, commit=True):
         user = super(Register_form, self).save(commit=False)
         user.username = self.cleaned_data['username']
@@ -29,16 +41,16 @@ class Register_form(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
-        
-        
+
+
 
 
 class Login_form(AuthenticationForm):
-   username = forms.CharField(label="Username", max_length=30, 
-                               widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
-   password = forms.CharField(label="Password", max_length=30, 
-                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
-   def validate(self, request):
+    username = forms.CharField(label="Username", max_length=30, 
+            widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
+    password = forms.CharField(label="Password", max_length=30, 
+            widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
+    def validate(self, request):
         username = request.POST['username']
         password = request.POST['password']
         return authenticate(username=username, password=password)

@@ -33,8 +33,9 @@ def Pagecheck(request):
 
 def default(request):
 
-    context= {'name': Namecheck(request)}
-    return render(request, Pagecheck(request), context)
+    context= {'name': Namecheck(request),
+            'extend_val': Pagecheck(request)}
+    return render(request, 'welcome.html', context)
             
 
 #### this is for testing only. Nothing directs to /guest
