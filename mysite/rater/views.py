@@ -57,6 +57,8 @@ def register_page(request):
         form = Register_form(request.POST)
         if form.is_valid():
             form.save(commit=True)
+            user = User.objects.get(username=request.POST['username'])
+            login(request,user)
             return redirect('/')
     else:
         form = Register_form()

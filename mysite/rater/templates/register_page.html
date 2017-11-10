@@ -10,14 +10,17 @@
 				<h1 style="margin-bottom:50px;"> Register </h1>
 				<div class="form-group">
 					{{ form.username.label_tag }}
+					{{ form.username.error }}
 					{{ form.username }}
 				</div>
 				<div class="form-group">
 					{{ form.first_name.label_tag }}
+					{{ form.first_name.error }}
 					{{ form.first_name }}
 				</div>
 				<div class="form-group">
 					{{ form.last_name.label_tag }}
+					{{ form.last_name..error }}
 					{{ form.last_name }}
 				</div>
 				<div class="form-group">
@@ -32,6 +35,7 @@
 					{{ form.password2.label_tag }}
 					{{ form.password2 }}
 				</div>
+				{{form.errors}}
 
 				<div >
 					<button class="btn btn-success" style="width:50%;">Register</button>
