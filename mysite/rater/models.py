@@ -11,7 +11,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_image = models.ImageField(blank=True)
+    profile_image = models.ImageField(blank=True, upload_to='profile_images/')
     git_hub_link = models.URLField(blank=True, null=True, max_length=2000)
     linkedin_link = models.URLField(blank=True, null=True, max_length=2000)
 

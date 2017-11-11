@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from .forms import *
+from .models import *
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
@@ -108,6 +109,7 @@ def profile_page(request):
     if (not User.objects.filter(username=user_profile).exists()):
         return redirect('/')
     current_user = User.objects.get(username=user_profile)
+    user_profile = Profile.objects.get(user=current_user)
     """
     ## Alternative method to validate if a user exist
     try:
@@ -119,7 +121,9 @@ def profile_page(request):
     content = { "var": Pagecheck(request),
                 "name": Namecheck(request),
                 "valid": valid,
-                "profile": user_profile}
+                "meta_user": current_user,
+                "profile": user_profile
+              }
     return render(request, 'profile_page.html', content)
 
 
