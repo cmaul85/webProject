@@ -3,16 +3,23 @@
 
 
 {% block content %}
-    {{ valid }}
+    <img id="profile_images" class="img-rounded" src="{{ profile.profile_image.url }}">        
+    </img>
+    <div id="profile_text">
+        {{ meta_user.username }}
+    <div>
+    <div id="profile_text">
+        {{ meta_user.first_name }}
+    <div>
+    <div id="profile_text">
+        {{ meta_user.last_name }}
+    <div>
+    <div id="profile_text">
+        {{ meta_user.email }}
+    <div>
 
-    <div class="img-rounded" sytle="height:100px;width:100px;">
-        {{ profile.profile_image }}
-    </div>
-    {{ profile.username }}
-    {{ profile.first_name }}
-    {{ profile.last_name }}
-    {{ profile.email }}
-
+    <a class="github-button" href="{{ profile.github_link }}" data-size="large" data-show-count="true" aria-label="Follow @zach on GitHub">Follow @{{ profile.user.username }}</a>
+    <div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="dark" data-vanity="{{ This needs to be linkedinusername }}"><a class="LI-simple-link" href='https://www.linkedin.com/in/{{ This needs to be linkedinusername }}?trk=profile-badge'>{{ This needs to be linkedin name }}</a></div>
 
 {% endblock %}
 

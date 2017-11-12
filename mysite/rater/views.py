@@ -119,7 +119,6 @@ def profile_page(request):
     except:
         return redirect('/')
     """
-    user_profile = current_user
     content = { "var": Pagecheck(request),
                 "name": Namecheck(request),
                 "valid": valid,
