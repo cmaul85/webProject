@@ -139,7 +139,7 @@ def profile_page(request):
             owners_profile_form = ""
             owners_user_form = ""
 
-        # Logic on to show github and linkedin buttons
+        # Logic on to show github and linkedin buttons and edit features
         current_flags = Get_flags(user_profile, owners_profile_flag)
             
 
@@ -166,6 +166,31 @@ def profile_page(request):
         else:
             print(edit_profile_form.errors)
             return redirect('/error/')
+
+def add_project(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            project_form = Add_Project_form()
+            image_form = Add_Image_form()
+            content = { "var": Pagecheck(request),
+                        "name": Namecheck(request),
+                        "project_form": project_form,
+                        "image_form": image_form,
+                      }
+            return render(request, 'add_project_page.html', content)
+        else:
+            project_form = Add_Project_form(request.POST)
+            images_form = Add_Image_form(request.POST, request.FILES)
+            if project_form.is_valid():
+                current_project = project_form.save(request.user)
+                for new_image in request.FILES.getlist('image'):
+                    new_image_object = Images.objects.create(image=new_image,
+                                                             project=current_project)
+                return redirect('/')
+            else:
+                return redirect('/error/')
+    else:
+        return redirect('/')
 
 
 def error_page(request):

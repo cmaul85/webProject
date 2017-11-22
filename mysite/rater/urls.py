@@ -15,6 +15,7 @@ urlpatterns = [
       url(r'^contact$', views.contact_page, name='contact_page'),
       url(r'^logout$', views.logout_view, name='logout_page'),
       url(r'^profile/[\s\S]*$', views.profile_page, name='profile_page'),
+      url(r'^add-project$', views.add_project, name='add_project_page'),
       url(r'^.+$', views.error_page, name="401")
 ]
 

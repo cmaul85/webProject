@@ -1,0 +1,14 @@
+{% extends var %}
+{% load static %}
+
+
+{% block content %}
+
+    <form method="POST" enctype="multipart/form-data" style="margin-top:50px;">
+        {% csrf_token %}
+        {{ project_form }}
+        {{ image_form }}
+        <button class="btn btn-success" style="width:50%;">add_project</button>
+    </form>
+
+{% endblock %}

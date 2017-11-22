@@ -33,6 +33,7 @@ class Profile(models.Model):
 class Projects(models.Model):
     project_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, unique=False, on_delete=models.CASCADE)
+    description = models.TextField(max_length=1000)
     name = models.CharField(max_length=80, blank=False)
     rating = models.PositiveIntegerField(blank=True, default=0)
     number_of_ratings = models.PositiveIntegerField(blank=True, default=0)
@@ -59,8 +60,8 @@ def generate_project_file_path(self, filename):
 
 class Images(models.Model):
     image_id = models.AutoField(primary_key=True)
-    project = models.ForeignKey(Projects, unique=False, on_delete=models.CASCADE)
-    image = models.ImageField(blank=True, upload_to=generate_project_file_path)
+    project = models.ForeignKey(Projects, blank=True, unique=False, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=generate_project_file_path)
 
 
 

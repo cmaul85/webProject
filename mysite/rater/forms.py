@@ -92,6 +92,57 @@ class Edit_User_form(forms.ModelForm):
             user.save()
 
 
+class Add_Project_form(forms.ModelForm):
+    name = forms.CharField(max_length=80)
+    description = forms.CharField(widget=forms.Textarea)
+    git_hub_link = forms.URLField(max_length=2000, required=False)
+
+    class Meta:
+        model = Projects
+        fields = ('name',
+                  'description',
+                  'git_hub_link',
+                 )
+    def save(self, user, commit=True):
+        project = super(Add_Project_form, self).save(commit=False)
+        project.user = user
+        project.name = self.cleaned_data['name']
+        project.description = self.cleaned_data['description']
+        project.git_hub_link = self.cleaned_data['git_hub_link']
+        if commit:
+            project.save()
+            return project
+
+
+class Add_Image_form(forms.ModelForm):
+    image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple':True}), required=True)
+    class Meta:
+        model = Images
+        fields = ('image', )
+
+    def save(self, project, commit=True):
+        image = super(Add_Image_form, self).save(commit=False)
+        #print(self.files.getlist('image'))
+        image.project = project
+        if commit:
+            image.save()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
