@@ -2,10 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
-
-
-
-
+from .models import *
 
 
 class Register_form(UserCreationForm):
@@ -56,5 +53,45 @@ class Login_form(AuthenticationForm):
         username = request.POST['username']
         password = request.POST['password']
         return authenticate(username=username, password=password)
+
+
+class Edit_Profile_form(forms.ModelForm):
+    profile_image = forms.ImageField(required=False)
+    #linkedin_link = forms.URLField()
+    #git_hub_link = forms.URLField()
+
+    class Meta:
+        model = Profile
+        fields = (
+                  'profile_image',
+                  'git_hub_username',
+                  'linkedin_username',
+                  )
+    def save(self, profile, commit=True):
+        if self.cleaned_data['profile_image'] != None:
+            profile.profile_image = self.cleaned_data['profile_image']
+        profile.git_hub_username = self.cleaned_data['git_hub_username']
+        profile.linkedin_username = self.cleaned_data['linkedin_username']
+        if commit:
+            profile.save()
+
+
+class Edit_User_form(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+                  'first_name',
+                  'last_name',
+                  'email',
+                  )
+    def save(self, user, commit=True):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+
+
+
 
 

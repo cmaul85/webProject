@@ -11,9 +11,22 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 
-class profile_info:
-    def __init__(self, username):
-        self.username = username
+class view_flags:
+    def __init__(self, g_flag, l_flag, o_flag):
+        self.git_hub_flag = g_flag
+        self.linkedin_flag = l_flag
+        self.owners_profile_flag = o_flag
+
+def Get_flags(user_profile, o_flag):
+    if user_profile.git_hub_username not in [None, ""]:
+        git_hub_flag = True
+    else:
+        git_hub_flag = False
+    if user_profile.linkedin_username not in [None, ""]:
+        linkedin_flag = True
+    else:
+        linkedin_flag = False
+    return view_flags(git_hub_flag, linkedin_flag, o_flag)
 
 
 def Namecheck(request):
@@ -102,30 +115,57 @@ def contact_page(request):
 
 def profile_page(request):
     user_profile = request.path_info.split('/')[len(request.path_info.split('/')) - 1]
-    if request.user.username == user_profile:
-        valid = "my profile\n"
-    else:
-        valid = "Not valid\n" 
-
-    ## Check to see if user is valid
-    if (not User.objects.filter(username=user_profile).exists()):
-        return redirect('/')
-    current_user = User.objects.get(username=user_profile)
-    user_profile = Profile.objects.get(user=current_user)
-    """
-    ## Alternative method to validate if a user exist
-    try:
+    if request.method == 'GET':
+        ## Check to see if user is valid
+        if (not User.objects.filter(username=user_profile).exists()):
+            return redirect('/')
         current_user = User.objects.get(username=user_profile)
-    except:
-        return redirect('/')
-    """
-    content = { "var": Pagecheck(request),
-                "name": Namecheck(request),
-                "valid": valid,
-                "meta_user": current_user,
-                "profile": user_profile
-              }
-    return render(request, 'profile_page.html', content)
+        user_profile = Profile.objects.get(user=current_user)
+
+        if request.user.username == user_profile.user.username:
+            owners_profile_flag = True
+            owners_profile_form = Edit_Profile_form(initial={
+                                               #'profile_image': user_profile.profile_image, 
+                                               'linkedin_username' : user_profile.linkedin_username,
+                                               'git_hub_username' : user_profile.git_hub_username,
+                                               })
+            owners_user_form = Edit_User_form(initial={
+                                               'first_name': current_user.first_name,
+                                               'last_name' : current_user.last_name,
+                                               'email' : current_user.email,
+                                               })
+        else:
+            owners_profile_flag = False
+            owners_profile_form = ""
+            owners_user_form = ""
+
+        # Logic on to show github and linkedin buttons
+        current_flags = Get_flags(user_profile, owners_profile_flag)
+            
+
+        content = { "var": Pagecheck(request),
+                    "name": Namecheck(request),
+                    "current_flags" : current_flags,
+                    "edit_profile_form" : owners_profile_form,
+                    "edit_user_form" : owners_user_form,
+                    "meta_user" : current_user,
+                    "profile" : user_profile
+                  }
+        return render(request, 'profile_page.html', content)
+    else:
+        # this is when the method is a post when user edits profile.
+        user_obj = User.objects.get(username=user_profile)
+        profile_obj = Profile.objects.get(user=user_obj)
+        edit_user_form = Edit_User_form(request.POST)
+        edit_profile_form = Edit_Profile_form(request.POST, request.FILES)
+        if edit_profile_form.is_valid() and edit_user_form.is_valid():
+            edit_profile_form.save(profile_obj)
+            edit_user_form.save(user_obj)
+            print(request.path)
+            return redirect(request.path)
+        else:
+            print(edit_profile_form.errors)
+            return redirect('/error/')
 
 
 def error_page(request):
@@ -135,3 +175,14 @@ def error_page(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+
+
+"""
+## Alternative method to validate if a user exist
+try:
+    current_user = User.objects.get(username=user_profile)
+except:
+    return redirect('/')
+"""
