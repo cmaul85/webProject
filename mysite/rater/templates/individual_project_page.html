@@ -3,6 +3,7 @@
 
 
 {% block content %}
+
     {{ project.name }}
     {{ project.date }}
     <a href="/profile/{{ project.user.username }}">
@@ -31,10 +32,11 @@
         </div>
     </section>
     {{ project.rating }}
+    {{ project.git_hub_link }}
     {{ project.description }}
 
-
 {% endblock %}
+
 
 {% block additional_scripts %}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>

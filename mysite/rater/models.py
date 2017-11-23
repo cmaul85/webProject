@@ -47,7 +47,7 @@ class Comments(models.Model):
     user = models.ForeignKey(User, unique=False, on_delete=models.CASCADE)
     date = models.DateField(auto_now=False, auto_now_add=True)
     comment = models.CharField(max_length=200)
-    rating = models.PositiveIntegerField(blank=True, default=0)
+    rating = models.PositiveIntegerField(blank=True, default=5)
 """
 
 
