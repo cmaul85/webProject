@@ -186,11 +186,26 @@ def add_project(request):
                 for new_image in request.FILES.getlist('image'):
                     new_image_object = Images.objects.create(image=new_image,
                                                              project=current_project)
-                return redirect('/')
+                return redirect('project/{}'.format(current_project.project_id))
             else:
                 return redirect('/error/')
     else:
         return redirect('/')
+
+
+def view_project_page(request):
+    project_id = request.path_info.split('/')[len(request.path_info.split('/')) - 1]
+    if not Projects.objects.filter(project_id=project_id).exists():
+        return redirect('/')
+    current_project = Projects.objects.get(project_id=project_id)
+    images = Images.objects.filter(project=current_project)
+    print(len(images))
+    content = { "var": Pagecheck(request),
+                "name": Namecheck(request),
+                "project": current_project,
+                "image_object": images,
+              }
+    return render(request, 'individual_project_page.html', content)    
 
 
 def error_page(request):

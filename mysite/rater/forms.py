@@ -122,7 +122,6 @@ class Add_Image_form(forms.ModelForm):
 
     def save(self, project, commit=True):
         image = super(Add_Image_form, self).save(commit=False)
-        #print(self.files.getlist('image'))
         image.project = project
         if commit:
             image.save()

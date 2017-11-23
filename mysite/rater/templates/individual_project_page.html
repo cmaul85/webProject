@@ -1,0 +1,74 @@
+{% extends var %}
+{% load static %}
+
+
+{% block content %}
+    {{ project.name }}
+    {{ project.date }}
+    <a href="/profile/{{ project.user.username }}">
+        {{ project.user.username }}
+    </a>
+    <section class="slider">
+        <div id="slider" class="flexslider">
+            <ul class="slides">
+                {% for i in image_object %}
+                    <li>
+                        <img src="{{ i.image.url }}">        
+                        </img>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="carousel" class="flexslider">
+            <ul class="slides">
+                {% for i in image_object %}
+                    <li>
+                        <img src="{{ i.image.url }}">        
+                        </img>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {{ project.rating }}
+    {{ project.description }}
+
+
+{% endblock %}
+
+{% block additional_scripts %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.min.js">\x3C/script>')</script>
+<script defer="" src="{% static "js/jquery.flexslider.js" %}"></script>
+<script type="text/javascript">
+    $(window).load(function(){
+      $('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        itemWidth: 210,
+        itemMargin: 5,
+        asNavFor: '#slider'
+      });
+
+      $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        sync: "#carousel",
+      });
+      $('.flexslider').flexslider({
+        animation: "slide",
+        slideshowSpeed: 10000,
+        controlNav: true,
+        directionNav: true
+      });
+    });
+ </script>
+{% endblock %}
+
+
+
+
