@@ -141,3 +141,5 @@ MEDIA_URL = '/static/media/'
 MEDIA_ROOT = BASE_DIR + '/rater/static/media'
 
 
+
+

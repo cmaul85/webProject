@@ -5,6 +5,9 @@ from django.db import models
 from django import forms
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ValidationError
+import os
+
 
 
 # Putting some helpful functions
@@ -58,10 +61,17 @@ def generate_project_file_path(self, filename):
     return str('projects/' + name + project_name)
 
 
+def val_image_ext(value):
+    valid_image_extensions = ['.png', '.jpg', '.bmp']
+    ext = os.path.splitext(value.name)[1]
+    if ext not in valid_image_extensions:
+        raise ValidationError(u'Error Message')
+
+
 class Images(models.Model):
     image_id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Projects, blank=True, unique=False, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=generate_project_file_path)
+    image = models.ImageField(upload_to=generate_project_file_path, validators=[val_image_ext])
 
 
 

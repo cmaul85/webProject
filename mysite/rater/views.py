@@ -161,7 +161,7 @@ def profile_page(request):
         if edit_profile_form.is_valid() and edit_user_form.is_valid():
             edit_profile_form.save(profile_obj)
             edit_user_form.save(user_obj)
-            print(request.path)
+            #print(request.path)
             return redirect(request.path)
         else:
             print(edit_profile_form.errors)
@@ -199,7 +199,7 @@ def view_project_page(request):
         return redirect('/')
     current_project = Projects.objects.get(project_id=project_id)
     images = Images.objects.filter(project=current_project)
-    print(len(images))
+    #print(len(images))
     content = { "var": Pagecheck(request),
                 "name": Namecheck(request),
                 "project": current_project,

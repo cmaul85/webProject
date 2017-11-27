@@ -26,7 +26,7 @@
 
 
     {% if current_flags.linkedin_flag %}
-    <div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="dark" data-vanity="zachary-sloppy-williams"><a class="LI-simple-link" href='https://www.linkedin.com/in/zachary-sloppy-williams?trk=profile-badge'>Zachary Williams</a></div>
+    <div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="dark" data-vanity="{{ profile.linkedin_username }}"><a class="LI-simple-link" href='https://www.linkedin.com/in/{{ profile.linkedin_username }}?trk=profile-badge'> {{ meta.first_name }} {{ meta.last_name }}</a></div>
     {% endif %}
 
 
