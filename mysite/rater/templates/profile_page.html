@@ -7,16 +7,17 @@
     </img>
 
     <div class="profile_text">
-        {{ meta_user.username }}
+        {{ profile.user.username }}
     <div>
     <div class="profile_text">
-        {{ meta_user.first_name }}
+        {{ profile.user.first_name }}
+
     <div>
     <div class="profile_text">
-        {{ meta_user.last_name }}
+        {{ profile.user.last_name }}
     <div>
     <div class="profile_text">
-        {{ meta_user.email }}
+        {{ profile.user.email }}
     <div>
 
 
@@ -26,7 +27,7 @@
 
 
     {% if current_flags.linkedin_flag %}
-    <div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="dark" data-vanity="{{ profile.linkedin_username }}"><a class="LI-simple-link" href='https://www.linkedin.com/in/{{ profile.linkedin_username }}?trk=profile-badge'> {{ meta.first_name }} {{ meta.last_name }}</a></div>
+    <div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="dark" data-vanity="{{ profile.linkedin_username }}"><a class="LI-simple-link" href='https://www.linkedin.com/in/{{ profile.linkedin_username }}?trk=profile-badge'> {{ profile.user.first_name }} {{ profile.user.last_name }}</a></div>
     {% endif %}
 
 

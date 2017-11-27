@@ -148,7 +148,6 @@ def profile_page(request):
                     "current_flags" : current_flags,
                     "edit_profile_form" : owners_profile_form,
                     "edit_user_form" : owners_user_form,
-                    "meta_user" : current_user,
                     "profile" : user_profile
                   }
         return render(request, 'profile_page.html', content)
