@@ -8,4 +8,4 @@ from .models import *
 admin.site.register(Profile)
 admin.site.register(Projects)
 admin.site.register(Images)
-#admin.site.register(Comments)
+admin.site.register(Comments)

@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from django import forms
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 import os
-
+from PIL import Image
 
 
 # Putting some helpful functions
@@ -26,12 +26,6 @@ class Profile(models.Model):
         if created:
             Profile.objects.create(user=instance)
 
-    """
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.Profile.save()
-    """
-
 
 class Projects(models.Model):
     project_id = models.AutoField(primary_key=True)
@@ -42,16 +36,15 @@ class Projects(models.Model):
     number_of_ratings = models.PositiveIntegerField(blank=True, default=0)
     git_hub_link = models.URLField(blank=True, null=True, max_length=2000)
     date = models.DateField(auto_now=False, auto_now_add=True)
-    
-"""
+
+
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Projects, unique=False, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, unique=False, on_delete=models.CASCADE)
-    date = models.DateField(auto_now=False, auto_now_add=True)
-    comment = models.CharField(max_length=200)
+    profile = models.ForeignKey(Profile, unique=False, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=False, auto_now_add=True)
+    comment = models.CharField(max_length=280)
     rating = models.PositiveIntegerField(blank=True, default=5)
-"""
 
 
 def generate_project_file_path(self, filename):
@@ -68,10 +61,29 @@ def val_image_ext(value):
         raise ValidationError(u'Error Message')
 
 
+@receiver(pre_delete, sender=Comments)
+def create_new_comment(sender, instance, using, **kwargs):  
+    project = instance.project
+    project.rating -= int(instance.rating)
+    project.number_of_ratings -= 1
+    project.save()
+
+
 class Images(models.Model):
     image_id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Projects, blank=True, unique=False, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=generate_project_file_path, validators=[val_image_ext])
+
+
+@receiver(post_save, sender=Comments)
+def create_new_comment(sender, instance, created, **kwargs):
+    if created:
+        project = instance.project
+        project.rating += int(instance.rating)
+        project.number_of_ratings += 1
+        project.save()
+
+
 
 
 
