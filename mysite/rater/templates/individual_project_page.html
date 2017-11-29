@@ -2,6 +2,12 @@
 {% load static %}
 
 
+{% block additional_links %}
+    <link rel="stylesheet" href="{% static "css/flexslider.css" %}" type="text/css" media="screen">
+{% endblock %}
+
+
+
 {% block content %}
 
     {{ project.name }}
@@ -34,6 +40,14 @@
     <img src="{{ project_rating }}" />
     {{ project.git_hub_link }}
     {{ project.description }}
+
+    {% for tag in project_tags %}
+        <a href="/projects/{{ tag }}">
+        <span class="badge badge-info">
+                {{ tag }}
+        </span>
+        </a>
+    {% endfor %}
 
     {% if current_flags.is_authenticated %}
 	    <form method="POST" style="margin-top:50px;">

@@ -104,12 +104,15 @@ class Add_Project_form(forms.ModelForm):
                   'description',
                   'git_hub_link',
                  )
-    def save(self, user, commit=True):
+    def save(self, user, tags, commit=True):
+        print(tags)
         project = super(Add_Project_form, self).save(commit=False)
         project.user = user
         project.name = self.cleaned_data['name']
         project.description = self.cleaned_data['description']
         project.git_hub_link = self.cleaned_data['git_hub_link']
+        if tags != None and tags != "":
+            project.tags = tags
         if commit:
             project.save()
             return project

@@ -35,6 +35,7 @@ class Projects(models.Model):
     rating = models.PositiveIntegerField(blank=True, default=0)
     number_of_ratings = models.PositiveIntegerField(blank=True, default=0)
     git_hub_link = models.URLField(blank=True, null=True, max_length=2000)
+    tags = models.TextField(blank=True, max_length=1000)
     date = models.DateField(auto_now=False, auto_now_add=True)
 
 

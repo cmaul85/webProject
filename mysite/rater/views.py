@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from .forms import *
 from .models import *
+from .python_scripts.py_scripts import *
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
@@ -11,26 +12,6 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 
-class view_flags:
-    def __init__(self, g_flag="", l_flag="", o_flag="", auth_flag=""):
-        self.git_hub_flag = g_flag
-        self.linkedin_flag = l_flag
-        self.owners_profile_flag = o_flag
-        self.is_authenticated = auth_flag
-
-def Get_flags(user_profile=None, o_flag="", auth_flag=""):
-    if user_profile is not None:
-        if user_profile.git_hub_username not in [None, ""]:
-            git_hub_flag = True
-        else:
-            git_hub_flag = False
-        if user_profile.linkedin_username not in [None, ""]:
-            linkedin_flag = True
-        else:
-            linkedin_flag = False
-        return view_flags(g_flag=git_hub_flag, l_flag=linkedin_flag, o_flag=o_flag)
-    else:
-        return view_flags(auth_flag=auth_flag)
 
 
 def Namecheck(request):
@@ -105,9 +86,11 @@ def login_page(request):
     return render(request, 'login_page.html', content)
 
 
-def projects_page(request):
+def projects_page(request, search_results):
+    project_list = get_porject_list(Projects.objects.all(), search_results)
     context={'name': Namecheck(request),
-            'extend_val': Pagecheck(request)}
+            'extend_val': Pagecheck(request),
+            'project_object_list': project_list,}
     return render(request, 'projects.html', context)
 
 
@@ -117,8 +100,8 @@ def contact_page(request):
     return render(request, 'contact.html', context)
 
 
-def profile_page(request):
-    user_profile = request.path_info.split('/')[len(request.path_info.split('/')) - 1]
+def profile_page(request, user_profile):
+    #user_profile = request.path_info.split('/')[len(request.path_info.split('/')) - 1]
     if request.method == 'GET':
         ## Check to see if user is valid
         if (not User.objects.filter(username=user_profile).exists()):
@@ -185,7 +168,7 @@ def add_project(request):
             project_form = Add_Project_form(request.POST)
             images_form = Add_Image_form(request.POST, request.FILES)
             if project_form.is_valid():
-                current_project = project_form.save(request.user)
+                current_project = project_form.save(request.user, request.POST['tags'])
                 for new_image in request.FILES.getlist('image'):
                     new_image_object = Images.objects.create(image=new_image,
                                                              project=current_project)
@@ -197,55 +180,7 @@ def add_project(request):
 
 
 # This is a customized comment object So I could match the url of each comment to Rating image.
-class comment_object:
-    def __init__(self, url, comment):
-        self.rating_url = url
-        self.comment = comment
 
-
-def comment_list_converter(comment_list):
-    new_comment_list = []
-    pre_string = "/static/media/stars/"
-    for i in comment_list:
-        if i.rating == 1:
-            temp_comment = comment_object("star_1.png", i)
-        elif i.rating == 2:
-            temp_comment = comment_object("star_2.png", i)
-        elif i.rating == 3:
-            temp_comment = comment_object("star_3.png", i)
-        elif i.rating == 4:
-            temp_comment = comment_object("star_4.png", i)
-        elif i.rating == 5:
-            temp_comment = comment_object("star_5.png", i)
-        temp_comment.rating_url = pre_string + temp_comment.rating_url
-        new_comment_list.append(temp_comment)
-    return new_comment_list
-
-# Use this function to get a rating out of the projects
-def convert_project_rating(project):
-    pre_string = "/static/media/stars/"
-    if project.number_of_ratings == 0:
-        return pre_string + "star_0.png"
-    else:
-        project_rating = project.rating / project.number_of_ratings
-        if project_rating >= 1 and project_rating < 1.2:
-            return pre_string + "star_1.png"
-        elif project_rating >= 1.2 and project_rating < 1.8:
-            return pre_string + "star_15.png"
-        elif project_rating >= 1.8 and project_rating < 2.2:
-            return pre_string + "star_2.png"
-        elif project_rating >= 2.2 and project_rating < 2.8:
-            return pre_string + "star_25.png"
-        elif project_rating >= 2.8 and project_rating < 3.2:
-            return pre_string + "star_3.png"
-        elif project_rating >= 3.2 and project_rating < 3.8:
-            return pre_string + "star_35.png"
-        elif project_rating >= 3.8 and project_rating < 4.2:
-            return pre_string + "star_4.png"
-        elif project_rating >= 4.2 and project_rating < 4.8:
-            return pre_string + "star_45.png"
-        elif project_rating >= 4.8 and project_rating <= 5:
-            return pre_string + "star_5.png"
 
 def view_project_page(request):
     project_id = request.path_info.split('/')[len(request.path_info.split('/')) - 1]
@@ -258,6 +193,7 @@ def view_project_page(request):
         new_comment_list = comment_list_converter(comment_list)
         comment_form = Add_Comment_form()
         project_rating = convert_project_rating(current_project)
+        project_tags = current_project.tags.split(',')
 
 
         # If the user is logged in they need to be presented with comments
@@ -274,6 +210,7 @@ def view_project_page(request):
                     "comment_list": new_comment_list,
                     "current_flags": current_flags,
                     "project_rating": project_rating,
+                    "project_tags": project_tags,
                     "comment_form": comment_form,
                   }
         return render(request, 'individual_project_page.html', content)    

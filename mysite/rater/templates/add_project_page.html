@@ -2,13 +2,29 @@
 {% load static %}
 
 
+{% block additional_links %}
+	<link href="{% static 'css/tagsinput.css' %}" rel="stylesheet">
+{% endblock %}
+
+
 {% block content %}
 
     <form method="POST" enctype="multipart/form-data" style="margin-top:50px;">
         {% csrf_token %}
         {{ project_form }}
         {{ image_form }}
+
+        <label class="col-xs-3 control-label">Project Tags</label>
+        <div class="col-xs-8">
+            <input name="tags" type="text" class="form-control" data-role="tagsinput" value=""/>
+        </div>
+
         <button class="btn btn-success" style="width:50%;">add_project</button>
     </form>
 
+
+{% endblock %}
+
+{% block additional_scripts %}
+    <script src="{% static 'js/tagsinput.js' %}"></script>
 {% endblock %}
