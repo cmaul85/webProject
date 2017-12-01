@@ -35,8 +35,8 @@
 	</div>
 
 
-	{% if current_flags.owners_profile_flag %}
 	<div class="col col-lg-6">
+	{% if current_flags.owners_profile_flag %}
 		<form method="POST" enctype="multipart/form-data" style="margin-top:50px;">
 			{% csrf_token %}
 			<div class="form-group">
@@ -71,8 +71,8 @@
 			</div>
 			<button class="btn btn-success" style="width:50%;">edit_profile</button>
 		</form>
-	</div>
 	{% endif %}
+	</div>
 </div>
 </div>
 {% endblock %}
