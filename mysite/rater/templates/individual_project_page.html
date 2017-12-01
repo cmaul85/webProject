@@ -3,95 +3,146 @@
 
 
 {% block additional_links %}
-    <link rel="stylesheet" href="{% static "css/flexslider.css" %}" type="text/css" media="screen">
+<link rel="stylesheet" href="{% static "css/flexslider.css" %}" type="text/css" media="screen">
 {% endblock %}
 
 
 
 {% block content %}
 
-    {{ project.name }}
-    {{ project.date }}
-    <a href="/profile/{{ project.user.username }}">
-        {{ project.user.username }}
-    </a>
-    <section class="slider">
-        <div id="slider" class="flexslider">
-            <ul class="slides">
-                {% for i in image_object %}
-                    <li>
-                        <img src="{{ i.image.url }}">        
-                        </img>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div id="carousel" class="flexslider">
-            <ul class="slides">
-                {% for i in image_object %}
-                    <li>
-                        <img src="{{ i.image.url }}">        
-                        </img>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
-    <img src="{{ project_rating }}" />
-    {{ project.git_hub_link }}
-    {{ project.description }}
+<div class="container">
+	<div class="boarder-top-0 rounded mt-5 row justify-content-md-center pb-4">
 
-    {% for tag in project_tags %}
-        <a href="/projects/{{ tag }}">
-        <span class="badge badge-info">
-                {{ tag }}
-        </span>
-        </a>
-    {% endfor %}
+		<div class="col col-lg-8">
+			<h2>{{ project.name }}</h2>
+			<p> Created on:  {{ project.date }}</p>
+			<p> Created by:   
+			<a href="/profile/{{ project.user.username }}">
+				{{ project.user.username }}
+			</a>
+			</p>
+			<section class="slider">
+				<div id="slider" class="flexslider">
+					<ul class="slides">
+						{% for i in image_object %}
+						<li>
+							<img src="{{ i.image.url }}">        
+							</img>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div id="carousel" class="flexslider">
+					<ul class="slides">
+						{% for i in image_object %}
+						<li>
+							<img src="{{ i.image.url }}">        
+							</img>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</section>
+			<div>
+				<p> Rating:   
+				<img src="{{ project_rating }}" />
+				</p>
+			</div>
+			
+			<div>
+				<p>
+				Github Link:  
+				{{ project.git_hub_link }}
+				</p>
+			</div>
+			<div>
+				<p>
+				Description:   
+				</p>
+				{{ project.description }}
+			</div>
 
-    {% if current_flags.is_authenticated %}
-	    <form method="POST" style="margin-top:50px;">
-            {% csrf_token %}
-            {{ comment_form }}
-		    <button class="btn" style="width:50%;">add comment</button>
-        </form>
-    {% endif %}
+			<div>
+				{% for tag in project_tags %}
+				{% if tag %}
+				<a href="/projects/{{ tag }}">
+					<span class="badge badge-info">
+						{{ tag }}
+					</span>
+				</a>
+				{% endif %}
+
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if current_flags.is_authenticated %}
+<div class="container py-3" >
+	<div class="row justify-content-md-center pb-3 pt-5">
+		<div class="col col-lg-6">
+			<h2 > Comment on this Project </h2>
+			<form method="POST" style="margin-top:50px;">
+				{% csrf_token %}
+				<div class="form-group">
+					{{ comment_form.comment.label_tag }}
+					{{ comment_form.comment.error }}
+					{{ comment_form.comment }}
+				</div>
+				<div class="form-group">
+					{{ comment_form.rating.label_tag }}
+					{{ comment_form.rating.error }}
+					{{ comment_form.rating }}
+				</div>
+				<div class="text-center">
+				<button class="btn btn-primary" style="width:50%;">Add Comment</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endif %}
 
 
-    <div class="container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Comments</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for comment in comment_list %}
-                <tr>
-                    <td>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col col-lg-8">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Comments</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for comment in comment_list %}
+					<tr>
+						<td>
 
 
-                        <div class="media">
-                          <div class="media-left">
-                            <img src="{{ comment.comment.profile.profile_image.url }}" class="media-object" style="width:60px">
-                          </div>
-                          <div class="media-body">
-                            <h4 class="media-heading">
-                            <a href="/profile/{{ comment.comment.profile.user.username }}">{{ comment.comment.profile.user.username }}</a>
-                            Posted on {{ comment.comment.date }}
-                            <img src="{{ comment.rating_url }}" />
-                            </h4>
-                            <p>{{ comment.comment.comment }}</p>
-                          </div>
-                        </div>
+							<div class="media">
+								<div class="media-left">
+									<img src="{{ comment.comment.profile.profile_image.url }}" class="media-object" style="width:60px">
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading">
+										<a href="/profile/{{ comment.comment.profile.user.username }}">{{ comment.comment.profile.user.username }}</a>
+										Posted on {{ comment.comment.date }}
+										<img src="{{ comment.rating_url }}" />
+									</h4>
+									<p>{{ comment.comment.comment }}</p>
+								</div>
+							</div>
 
 
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
 
 {% endblock %}
@@ -102,26 +153,26 @@
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.min.js">\x3C/script>')</script>
 <script defer="" src="{% static "js/jquery.flexslider-min.js" %}"></script>
 <script type="text/javascript">
-    $(window).load(function(){
-      $('#carousel').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: false,
-        slideshow: false,
-        itemWidth: 210,
-        itemMargin: 5,
-        asNavFor: '#slider'
-      });
+$(window).load(function(){
+	$('#carousel').flexslider({
+		animation: "slide",
+		controlNav: false,
+		animationLoop: false,
+		slideshow: false,
+		itemWidth: 210,
+		itemMargin: 5,
+		asNavFor: '#slider'
+	});
 
-      $('#slider').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: false,
-        slideshow: false,
-        sync: "#carousel",
-      });
-    });
- </script>
+	$('#slider').flexslider({
+		animation: "slide",
+		controlNav: false,
+		animationLoop: false,
+		slideshow: false,
+		sync: "#carousel",
+	});
+});
+</script>
 {% endblock %}
 
 
