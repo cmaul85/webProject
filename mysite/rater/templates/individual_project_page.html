@@ -31,9 +31,54 @@
             </ul>
         </div>
     </section>
-    {{ project.rating }}
+    <img src="{{ project_rating }}" />
     {{ project.git_hub_link }}
     {{ project.description }}
+
+    {% if current_flags.is_authenticated %}
+	    <form method="POST" style="margin-top:50px;">
+            {% csrf_token %}
+            {{ comment_form }}
+		    <button class="btn" style="width:50%;">add comment</button>
+        </form>
+    {% endif %}
+
+
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for comment in comment_list %}
+                <tr>
+                    <td>
+
+
+                        <div class="media">
+                          <div class="media-left">
+                            <img src="{{ comment.comment.profile.profile_image.url }}" class="media-object" style="width:60px">
+                          </div>
+                          <div class="media-body">
+                            <h4 class="media-heading">
+                            <a href="/profile/{{ comment.comment.profile.user.username }}">{{ comment.comment.profile.user.username }}</a>
+                            Posted on {{ comment.comment.date }}
+                            <img src="{{ comment.rating_url }}" />
+                            </h4>
+                            <p>{{ comment.comment.comment }}</p>
+                          </div>
+                        </div>
+
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 
 {% endblock %}
 

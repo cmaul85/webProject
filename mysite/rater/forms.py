@@ -77,6 +77,7 @@ class Edit_Profile_form(forms.ModelForm):
     def save(self, profile, commit=True):
         if self.cleaned_data['profile_image'] != None:
             profile.profile_image = self.cleaned_data['profile_image']
+            profile.profile_image_thumb = self.cleaned_data['profile_image']
         profile.git_hub_username = self.cleaned_data['git_hub_username']
         profile.linkedin_username = self.cleaned_data['linkedin_username']
         if commit:
@@ -140,7 +141,22 @@ class Add_Image_form(forms.ModelForm):
             image.save()
 
 
+class Add_Comment_form(forms.ModelForm):
+    comment = forms.CharField(max_length=280)
+    rating = forms.IntegerField(max_value=5, min_value=1, required=True)
+    
+    class Meta:
+        model = Comments
+        fields = ('comment', 'rating', )
 
+    def save(self, project, profile, commit=True):
+        new_comment = super(Add_Comment_form, self).save(commit=False)
+        new_comment.project = project
+        new_comment.profile = profile
+        new_comment.comment = self.cleaned_data['comment']
+        new_comment.rating = int(self.cleaned_data['rating'])
+        if commit:
+            new_comment.save()
 
 
 
