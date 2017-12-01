@@ -1,11 +1,10 @@
-
-
 class view_flags:
     def __init__(self, g_flag="", l_flag="", o_flag="", auth_flag=""):
         self.git_hub_flag = g_flag
         self.linkedin_flag = l_flag
         self.owners_profile_flag = o_flag
         self.is_authenticated = auth_flag
+
 
 def Get_flags(user_profile=None, o_flag="", auth_flag=""):
     if user_profile is not None:
@@ -67,20 +66,70 @@ def convert_project_rating(project):
 class project_object:
     def __init__(self, project):
         self.project = project
-        if project.number_of_ratings == 0:
-            self.rating = 0
-        else:
-            self.rating = project.rating / project.number_of_ratings
+        self.rating = convert_project_rating(project)
 
 
-def get_porject_list(projects, search_query):
+def search_project_name(search_query, project_name):
+    if search_query in project_name:
+        return True
+    else:
+        return False
+
+def search_project_tags(search_query, tags):
+    if search_query in tags:
+        return True
+    else:
+        return False
+
+def search_project_desc(search_query, description):
+    if search_query in description:
+        return True
+    else:   
+        return False
+
+def search_project_user(search_query, username):
+    if search_query == username:
+        return True
+    else:
+        return False
+
+
+def get_porject_list(projects, search_query, advanced_search=None):
     project_object_list = []
     if search_query == None or search_query == "":
         for i in projects:
             project_object_list.append(project_object(i))
         return project_object_list
-#    else:
+    else:
+        if advanced_search == None:
+            search_queries = [search_query, ]
+            #search_queries = search_quers.split('')  ## SOME DELIMITER
+            for i in search_queries:
+                for j in projects:
+                    if (search_project_name(i, j.name) or
+                        search_project_tags(i, j.tags.split(',')) or
+                        search_project_desc(i, j.description) or
+                        search_project_user(i, j.user.username)):
+                        project_object_list.append(project_object(j))
+                        
+                    """
+                    search_list = [j.name, j.description, j.user.username, j.tags.split(',')]
+                    for k in search_list:
+                        if i in k:
+                            project_object_list.append(project_object(j))
+                            break
+                    """
+            return project_object_list
+        else:       ## User does advanced search
+            print("error")
 
+
+
+
+# check project title
+# check description
+# check username
+# check tags
 
 
 
