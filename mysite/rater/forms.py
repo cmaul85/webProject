@@ -117,6 +117,12 @@ class Add_Project_form(forms.ModelForm):
                   'description',
                   'git_hub_link',
                  )
+    def __init__(self, *args, **kwargs):
+        super(Add_Project_form, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['git_hub_link'].widget.attrs.update({'class': 'form-control'})
+
     def save(self, user, tags, commit=True):
         print(tags)
         project = super(Add_Project_form, self).save(commit=False)
@@ -136,6 +142,10 @@ class Add_Image_form(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
+
+    def __init__(self, *args, **kwargs):
+        super(Add_Image_form, self).__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update({'class': 'form-control'})
 
     def save(self, project, commit=True):
         image = super(Add_Image_form, self).save(commit=False)

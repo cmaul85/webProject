@@ -3,28 +3,49 @@
 
 
 {% block additional_links %}
-	<link href="{% static 'css/tagsinput.css' %}" rel="stylesheet">
+<link href="{% static 'css/tagsinput.css' %}" rel="stylesheet">
 {% endblock %}
 
 
 {% block content %}
 
-    <form method="POST" enctype="multipart/form-data" style="margin-top:50px;">
-        {% csrf_token %}
-        {{ project_form }}
-        {{ image_form }}
+<form method="POST" enctype="multipart/form-data" style="margin-top:50px;">
+	{% csrf_token %}
+	<div class="form-group">
+		{{ project_form.name.label_tag }}
+		{{ project_form.name.error }}
+		{{ project_form.name }}
+	</div>
+	<div class="form-group">
+		{{ project_form.description.label_tag }}
+		{{ project_from.description.error }}
+		{{ project_form.description}}
+	</div>
+	<div class="form-group">
+		{{ project_form.git_hub_link.label_tag }}
+		{{ project_from.git_hub_link.error }}
+		{{ project_form.git_hub_link}}
+	</div>
+	<div class="form-group">
+		{{ image_form.image.label_tag }}
+		{{ image_form.image.error }}
+		{{ image_form.image}}
+	</div>
 
-        <label class="col-xs-3 control-label">Project Tags</label>
-        <div class="col-xs-8">
-            <input name="tags" type="text" class="form-control" data-role="tagsinput" value=""/>
-        </div>
 
-        <button class="btn btn-success" style="width:50%;">add_project</button>
-    </form>
+	<div class="form-group">
+		<label class="col-xs-3 control-label">Project Tags</label>
+		<div class="col-xs-8">
+			<input name="tags" type="text" class="form-control" data-role="tagsinput" value=""/>
+		</div>
+	</div>
+
+	<button class="btn btn-success" style="width:50%;">add_project</button>
+</form>
 
 
 {% endblock %}
 
 {% block additional_scripts %}
-    <script src="{% static 'js/tagsinput.js' %}"></script>
+<script src="{% static 'js/tagsinput.js' %}"></script>
 {% endblock %}
