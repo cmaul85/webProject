@@ -67,6 +67,13 @@ class Edit_Profile_form(forms.ModelForm):
                   'git_hub_username',
                   'linkedin_username',
                   )
+        
+    def __init__(self, *args, **kwargs):
+        super(Edit_Profile_form, self).__init__(*args, **kwargs)
+        self.fields['profile_image'].widget.attrs.update({'class': 'form-control'})
+        self.fields['git_hub_username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['linkedin_username'].widget.attrs.update({'class': 'form-control'})
+
     def save(self, profile, commit=True):
         if self.cleaned_data['profile_image'] != None:
             profile.profile_image = self.cleaned_data['profile_image']
@@ -85,6 +92,12 @@ class Edit_User_form(forms.ModelForm):
                   'last_name',
                   'email',
                   )
+    def __init__(self, *args, **kwargs):
+        super(Edit_User_form, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+
     def save(self, user, commit=True):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
