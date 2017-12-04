@@ -12,3 +12,7 @@
 #project_list_name {
     color:black;
 }
+
+td {
+	border-top: none !important;
+}
