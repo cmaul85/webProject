@@ -6,15 +6,19 @@
 <div class="container">
 	<div class="row justify-content-md-center">
 		<div class="col col-lg-6">
-			<img id="profile_images" class="ml-2 my-4 img-rounded" src="{{ profile.profile_image.url }}">
-			</img>
 
 
 			<table class="table">
 				<tbody>
 					<div class="my-1 profile_text">
+						<div class="pt-5">
+								<img id="profile_images" class="img-rounded" src="{{ profile.profile_image.url }}">
+								</img>
+								<div class="float-right pr-5">
+								<button id="editProfile" type="button" class=" btn btn-secondary" >Edit</button>
+								</div>
+						</div>
 						<tr >
-
 							<td >
 								<span class="pr-2 font-weight-bold">
 									Username:    
@@ -30,36 +34,36 @@
 					<div class="profile_text">
 						<tr>
 							<td>
-						<span class="pr-2 font-weight-bold">
-							First Name:        
-						</span>
+								<span class="pr-2 font-weight-bold">
+									First Name:        
+								</span>
 							</td>
 							<td>
-						{{ profile.user.first_name }}
-							</td>
-						</tr>
-					</div>
-					<div class="profile_text">
-						<tr>
-							<td>
-						<span class="pr-2 font-weight-bold">
-							Last Name:    
-						</span>
-							</td>
-							<td>
-						{{ profile.user.last_name }}
+								{{ profile.user.first_name }}
 							</td>
 						</tr>
 					</div>
 					<div class="profile_text">
 						<tr>
 							<td>
-						<span class="pr-2 font-weight-bold">
-							Email:    
-						</span>
+								<span class="pr-2 font-weight-bold">
+									Last Name:    
+								</span>
 							</td>
 							<td>
-						{{ profile.user.email }}
+								{{ profile.user.last_name }}
+							</td>
+						</tr>
+					</div>
+					<div class="profile_text">
+						<tr>
+							<td>
+								<span class="pr-2 font-weight-bold">
+									Email:    
+								</span>
+							</td>
+							<td>
+								{{ profile.user.email }}
 							</td>
 						</tr>
 					</div>
@@ -69,7 +73,7 @@
 
 			{% if current_flags.git_hub_flag %}
 			<div class="ml-2">
-			<a class="github-button" href="https://github.com/{{ profile.git_hub_username }}" data-size="large" data-show-count="true" aria-label="Follow @zach on GitHub">Follow @{{ profile.git_hub_username }}</a>
+				<a class="github-button" href="https://github.com/{{ profile.git_hub_username }}" data-size="large" data-show-count="true" aria-label="Follow @zach on GitHub">Follow @{{ profile.git_hub_username }}</a>
 			</div>
 			{% endif %}
 
@@ -79,9 +83,14 @@
 			{% endif %}
 
 		</div>
+		<form method="GET" action="#">
+		</form>
+
 
 
 		<div class="col col-lg-6">
+			<div id="updateForm"  hidden>
+
 			{% if current_flags.owners_profile_flag %}
 			<form method="POST" enctype="multipart/form-data" style="margin-top:50px;">
 				{% csrf_token %}
@@ -115,9 +124,10 @@
 					{{ edit_profile_form.linkedin_username.error }}
 					{{ edit_profile_form.linkedin_username }}
 				</div>
-				<button class="btn btn-success" style="width:50%;">Update Profile</button>
+				<button id="updateProfile" class="btn btn-success" style="width:50%;">Update Profile</button>
 			</form>
 			{% endif %}
+			</div>
 		</div>
 	</div>
 </div>

@@ -1,9 +1,10 @@
 class view_flags:
-    def __init__(self, g_flag="", l_flag="", o_flag="", auth_flag=""):
+    def __init__(self, g_flag="", l_flag="", o_flag="", auth_flag="", update_flag=""):
         self.git_hub_flag = g_flag
         self.linkedin_flag = l_flag
         self.owners_profile_flag = o_flag
         self.is_authenticated = auth_flag
+        self.is_updating_profile = update_flag
 
 
 def Get_flags(user_profile=None, o_flag="", auth_flag=""):

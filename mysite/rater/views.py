@@ -11,9 +11,6 @@ from django.contrib.auth.models import User
 # Create your views here.
 from django.http import HttpResponse
 
-
-
-
 def Namecheck(request):
     if(request.user.is_authenticated):
         name= request.user.username
@@ -140,6 +137,7 @@ def profile_page(request, user_profile):
         return render(request, 'profile_page.html', content)
     else:
         # this is when the method is a post when user edits profile.
+        request.user.is_updating = ""
         user_obj = User.objects.get(username=user_profile)
         profile_obj = Profile.objects.get(user=user_obj)
         edit_user_form = Edit_User_form(request.POST)

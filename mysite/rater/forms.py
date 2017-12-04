@@ -162,6 +162,11 @@ class Add_Comment_form(forms.ModelForm):
         model = Comments
         fields = ('comment', 'rating', )
 
+    def __init__(self, *args, **kwargs):
+        super(Add_Comment_form, self).__init__(*args, **kwargs)
+        self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['rating'].widget.attrs.update({'class': 'form-control'})
+
     def save(self, project, profile, commit=True):
         new_comment = super(Add_Comment_form, self).save(commit=False)
         new_comment.project = project
