@@ -71,7 +71,7 @@ class project_object:
 
 
 def search_project_name(search_query, project_name):
-    if search_query in project_name:
+    if search_query.lower() in project_name.lower():
         return True
     else:
         return False
@@ -83,13 +83,13 @@ def search_project_tags(search_query, tags):
         return False
 
 def search_project_desc(search_query, description):
-    if search_query in description:
+    if search_query.lower() in description.lower():
         return True
     else:   
         return False
 
 def search_project_user(search_query, username):
-    if search_query == username:
+    if search_query.lower() == username.lower():
         return True
     else:
         return False

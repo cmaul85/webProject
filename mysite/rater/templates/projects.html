@@ -26,6 +26,13 @@
     </div>
 
 
+<form action="/projects/" method="post" id="form1">
+  {% csrf_token %}
+  Search <input type="text" name="search_query"><br>
+</form>
+
+<button type="submit" form="form1" value="Submit">Submit</button>
+
   <table class="table table-striped">
     <thead>
       <tr>

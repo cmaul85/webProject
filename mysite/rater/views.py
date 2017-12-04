@@ -84,11 +84,15 @@ def login_page(request):
 
 
 def projects_page(request, search_results):
-    project_list = get_porject_list(Projects.objects.all(), search_results)
-    context={'name': Namecheck(request),
-            'extend_val': Pagecheck(request),
-            'project_object_list': project_list,}
-    return render(request, 'projects.html', context)
+    if request.method == 'GET':
+        project_list = get_porject_list(Projects.objects.all(), search_results)
+        context={'name': Namecheck(request),
+                'extend_val': Pagecheck(request),
+                'project_object_list': project_list,}
+        return render(request, 'projects.html', context)
+    else:
+        search_result = request.POST['search_query']
+        return redirect('/projects/{}'.format(search_result))
 
 
 def contact_page(request):
